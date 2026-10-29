@@ -8,13 +8,16 @@ class AppAuthProvider extends ChangeNotifier {
   final AuthService _authService;
   User? _user;
   bool _isLoading = false;
+  bool _isAuthInitialized = false;
 
   User? get user => _user;
   bool get isLoading => _isLoading;
+  bool get isAuthInitialized => _isAuthInitialized;
 
   AppAuthProvider(this._authService) {
     _authService.authStateChanges.listen((User? user) {
       _user = user;
+      _isAuthInitialized = true;
       notifyListeners();
     });
   }

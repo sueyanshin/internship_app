@@ -81,7 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     hintText: 'Enter your password',
                     keyboardType: .visiblePassword,
                     textInputAction: .done,
-                    isPassword: true,
+                    isPassword: !_isPasswordVisible,
                     prefixIcon: Icons.lock_outline_rounded,
                     suffixIcon: IconButton(
                       onPressed: () {

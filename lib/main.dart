@@ -38,13 +38,16 @@ class MyApp extends StatelessWidget {
       title: 'Job App',
       theme: AppTheme.light,
       debugShowCheckedModeBanner: false,
-      home: StreamBuilder<User?>(
-        stream: FirebaseAuth.instance.authStateChanges(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return MainScreen();
+      home: Consumer<AppAuthProvider>(
+        builder: (context, provider, child) {
+          if (!provider.isAuthInitialized) {
+            return Center(child: CircularProgressIndicator());
           }
-          return LoginScreen();
+          if (provider.user != null) {
+            return MainScreen();
+          } else {
+            return LoginScreen();
+          }
         },
       ),
     );
