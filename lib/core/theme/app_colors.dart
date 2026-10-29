@@ -19,4 +19,5 @@ class AppColors {
 
   static const muted = Color(0xFFD5D8DD);
   static const blue = Color(0xFF2563EB);
+  static const error = Color.fromARGB(255, 235, 37, 67);
 }

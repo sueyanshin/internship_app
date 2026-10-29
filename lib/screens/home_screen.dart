@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:job_app/data/mock_data.dart';
 import 'package:job_app/models/skill_tag_data.dart';
 import 'package:job_app/screens/job_details_screen.dart';
-import 'package:job_app/screens/profile_screen.dart';
+import 'package:job_app/screens/my_progress_screen.dart';
 import 'package:job_app/widgets/banner_card.dart';
 import 'package:job_app/widgets/header_section.dart';
 import 'package:job_app/widgets/job_card.dart';
@@ -110,7 +110,7 @@ class HomeScreen extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => ProfileScreen(),
+                                builder: (context) => MyProgressScreen(),
                               ),
                             );
                           },
