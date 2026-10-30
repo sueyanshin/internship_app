@@ -9,13 +9,14 @@ class AppAuthProvider extends ChangeNotifier {
   User? _user;
   bool _isLoading = false;
   bool _isAuthInitialized = false;
+  StreamSubscription<User?>? _authSubscription;
 
   User? get user => _user;
   bool get isLoading => _isLoading;
   bool get isAuthInitialized => _isAuthInitialized;
 
   AppAuthProvider(this._authService) {
-    _authService.authStateChanges.listen((User? user) {
+    _authSubscription = _authService.authStateChanges.listen((User? user) {
       _user = user;
       _isAuthInitialized = true;
       notifyListeners();
@@ -47,5 +48,11 @@ class AppAuthProvider extends ChangeNotifier {
   Future<void> signOut() async {
     await _authService.signOut();
     notifyListeners();
+  }
+
+  @override
+  void dispose() {
+    _authSubscription?.cancel();
+    super.dispose();
   }
 }
