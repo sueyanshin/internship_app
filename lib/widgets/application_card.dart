@@ -20,7 +20,7 @@ class ApplicationCard extends StatelessWidget {
     final theme = Theme.of(context);
     return Container(
       padding: .all(30),
-
+      width: 120,
       decoration: BoxDecoration(
         color: backgroundColor,
         borderRadius: .circular(12),
