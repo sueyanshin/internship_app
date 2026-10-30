@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:job_app/screens/login_screen.dart';
 import 'package:job_app/screens/providers/app_auth_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -17,7 +18,14 @@ class ProfileScreen extends StatelessWidget {
               TextButton(
                 onPressed: () {
                   authProvider.signOut();
+                  Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(
+                      builder: (context) => const LoginScreen(),
+                    ),
+                    (route) => false,
+                  );
                 },
+
                 child: Text('Sign out'),
               ),
             ],
