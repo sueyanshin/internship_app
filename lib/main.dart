@@ -9,12 +9,17 @@ import 'package:job_app/screens/main_screen.dart';
 import 'package:job_app/screens/providers/bottom_nav_provider.dart';
 import 'package:job_app/screens/providers/tab_provider.dart';
 import 'package:job_app/screens/providers/app_auth_provider.dart';
+import 'package:job_app/screens/providers/user_provider.dart';
 import 'package:job_app/service/auth_service.dart';
 import 'package:provider/provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
+  final authService = AuthService(firebaseAuth, firestore);
 
   runApp(
     MultiProvider(
@@ -26,6 +31,7 @@ Future<void> main() async {
             AuthService(FirebaseAuth.instance, FirebaseFirestore.instance),
           ),
         ),
+        ChangeNotifierProvider(create: (_) => UserProvider(authService)),
       ],
       child: const MyApp(),
     ),
