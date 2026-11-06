@@ -13,7 +13,7 @@ import 'package:job_app/widgets/title_see_all_widget.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
-  new({super.key});
+  const new({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
