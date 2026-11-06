@@ -207,14 +207,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 if (!_formKey.currentState!.validate()) return;
 
                                 final error = await provider.signUp(
+                                  _nameController.text.trim(),
                                   _emailController.text.trim(),
                                   _passwordController.text.trim(),
+                                  _phoneController.text.trim(),
                                 );
                                 if (!context.mounted) return;
-
                                 if (error != null) {
                                   ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(content: Text(error.toString())),
+                                    SnackBar(
+                                      content: Text(error.toString()),
+                                      backgroundColor: Colors.redAccent,
+                                      behavior: SnackBarBehavior.floating,
+                                    ),
                                   );
                                 } else {
                                   Navigator.pushReplacement(

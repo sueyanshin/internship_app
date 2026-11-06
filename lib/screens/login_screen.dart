@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:job_app/core/theme/app_colors.dart';
+import 'package:job_app/screens/main_screen.dart';
 import 'package:job_app/screens/providers/app_auth_provider.dart';
 import 'package:job_app/screens/signup_screen.dart';
 import 'package:job_app/widgets/app_button.dart';
@@ -152,7 +153,18 @@ class _LoginScreenState extends State<LoginScreen> {
 
                                 if (error != null) {
                                   ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(content: Text(error.toString())),
+                                    SnackBar(
+                                      content: Text(error.toString()),
+                                      backgroundColor: Colors.redAccent,
+                                      behavior: SnackBarBehavior.floating,
+                                    ),
+                                  );
+                                } else {
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => MainScreen(),
+                                    ),
                                   );
                                 }
                               },

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +22,9 @@ Future<void> main() async {
         ChangeNotifierProvider(create: (_) => BottomNavProvider()),
         ChangeNotifierProvider(create: (_) => TabProvider()),
         ChangeNotifierProvider(
-          create: (_) => AppAuthProvider(AuthService(FirebaseAuth.instance)),
+          create: (_) => AppAuthProvider(
+            AuthService(FirebaseAuth.instance, FirebaseFirestore.instance),
+          ),
         ),
       ],
       child: const MyApp(),

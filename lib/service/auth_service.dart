@@ -1,25 +1,48 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthService {
-  AuthService(this._auth);
+  AuthService(this._auth, this._firestore);
 
   final FirebaseAuth _auth;
+  final FirebaseFirestore _firestore;
 
   Stream<User?> get authStateChanges => _auth.authStateChanges();
 
   User? get currentUser => _auth.currentUser;
 
-  Future<String?> signUp(String email, String password) async {
+  Future<String?> signUp(
+    String name,
+    String email,
+    String password,
+    String phoneNumber,
+  ) async {
     try {
-      await _auth.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
+      UserCredential userCredential = await _auth
+          .createUserWithEmailAndPassword(email: email, password: password);
+
+      User? user = userCredential.user;
+
+      if (user != null) {
+        // save profile to storage
+
+        // save to users document
+        await _firestore.collection('users').doc(user.uid).set({
+          'uid': user.uid,
+          'name': name,
+          'email': user.email,
+          'phone': phoneNumber,
+          'profileUrl': "",
+          'createdAt': FieldValue.serverTimestamp(),
+        });
+
+        return null;
+      }
       return null;
     } on FirebaseAuthException catch (e) {
       return _mapAuthError(e);
-    } catch (_) {
-      return ("Something went wrong. Please try again.");
+    } catch (e) {
+      return ('Failed to create account profile. Please try again.');
     }
   }
 
