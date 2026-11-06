@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/widgets.dart';
+import 'package:job_app/models/user_model.dart';
 
 class AuthService {
   AuthService(this._auth, this._firestore);
@@ -58,6 +60,23 @@ class AuthService {
   }
 
   Future<void> signOut() => _auth.signOut();
+
+  Future<UserModel?> getCurrentUser() async {
+    try {
+      String? uid = _auth.currentUser!.uid;
+      DocumentSnapshot doc = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(uid)
+          .get();
+      if (doc.exists) {
+        return UserModel.fromDocument(doc);
+      }
+      return null;
+    } catch (e) {
+      debugPrint('Error fetching usr: $e');
+      return null;
+    }
+  }
 
   String _mapAuthError(FirebaseAuthException e) {
     switch (e.code) {

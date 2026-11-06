@@ -3,15 +3,30 @@ import 'package:job_app/data/mock_data.dart';
 import 'package:job_app/models/skill_tag_data.dart';
 import 'package:job_app/screens/job_details_screen.dart';
 import 'package:job_app/screens/my_progress_screen.dart';
+import 'package:job_app/screens/providers/user_provider.dart';
 import 'package:job_app/widgets/banner_card.dart';
 import 'package:job_app/widgets/header_section.dart';
 import 'package:job_app/widgets/job_card.dart';
 import 'package:job_app/widgets/menu_item.dart';
 import 'package:job_app/widgets/skill_widget.dart';
 import 'package:job_app/widgets/title_see_all_widget.dart';
+import 'package:provider/provider.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   new({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<UserProvider>().fetchUserProfile();
+    });
+  }
 
   final List<SkillTagData> tags = [
     SkillTagData(
@@ -63,9 +78,22 @@ class HomeScreen extends StatelessWidget {
                 child: Column(
                   children: [
                     // Header Section
-                    HeaderSection(
-                      username: "Thike Thike",
-                      profileImage: "assets/images/profile-image.jpg",
+                    Consumer<UserProvider>(
+                      builder: (context, userProvider, child) {
+                        if (userProvider.isLoading) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                        final user = userProvider.currentUser;
+                        if (user == null) {
+                          return Text("Please login to your account");
+                        }
+                        return HeaderSection(
+                          username: user.name,
+                          profileImage: "assets/images/profile-image.jpg",
+                        );
+                      },
                     ),
                     SizedBox(height: 20),
                     // Banner Card
