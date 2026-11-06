@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:job_app/core/theme/app_colors.dart';
 import 'package:job_app/models/internship.dart';
+import 'package:job_app/widgets/app_button.dart';
 import 'package:job_app/widgets/horoizontal_image_list.dart';
 import 'package:job_app/widgets/tab_widget.dart';
 
@@ -109,22 +110,7 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
 
               const SizedBox(height: 10),
 
-              ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                  padding: .all(14),
-                  backgroundColor: AppColors.primaryLight,
-                  shape: RoundedRectangleBorder(borderRadius: .circular(12)),
-                ),
-                child: Text(
-                  'Apply Now',
-                  style: theme.textTheme.labelLarge!.copyWith(
-                    color: AppColors.surface,
-                    fontWeight: .bold,
-                    fontSize: 18,
-                  ),
-                ),
-              ),
+              AppButton(title: 'Apply Now', onPressed: () {}),
 
               const SizedBox(height: 20),
             ],
