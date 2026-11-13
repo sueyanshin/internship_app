@@ -7,6 +7,7 @@ class UserModel {
   final String phone;
   final String? profileUrl;
   final DateTime? createdAt;
+  final bool isProfileCompleted;
 
   new({
     required this.uid,
@@ -15,7 +16,9 @@ class UserModel {
     required this.phone,
     this.profileUrl,
     this.createdAt,
+    this.isProfileCompleted = false,
   });
+
   factory UserModel.fromDocument(DocumentSnapshot doc) {
     final data = doc.data() as Map<String, dynamic>;
 
@@ -26,6 +29,17 @@ class UserModel {
       phone: data['phone'] ?? "",
       profileUrl: data['profileUrl'] ?? "",
       createdAt: (data['createdAt'] as Timestamp?)?.toDate(),
+      isProfileCompleted: data['isProfileCompleted'] == true,
     );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'uid': uid,
+      'name': name,
+      'email': email,
+      'phone': phone,
+      'profileUrl': profileUrl,
+    };
   }
 }

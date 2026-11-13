@@ -2,6 +2,32 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>We need access to your gallery to let you pick an image.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>We need access to your camera to let you take a photo.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>We need access to your microphone if you record videos.</string>
+
+	<!-- <key>GIDServerClientID</key>
+	<string>1016065983482-clkp4qkq2s7c56l8qf6eej9m3brss7te.apps.googleusercontent.com</string>
+
+	<key>GIDClientID</key>
+	<string>1016065983482-clkp4qkq2s7c56l8qf6eej9m3brss7te.apps.googleusercontent.com</string> -->
+
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.1016065983482-rhsqamhvt7f233ap03dqn4qiu6ihh0r7</string>
+			</array>
+		</dict>
+	</array>
+
+
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>CFBundleDevelopmentRegion</key>

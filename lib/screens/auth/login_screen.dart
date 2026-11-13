@@ -1,35 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:job_app/core/theme/app_colors.dart';
-import 'package:job_app/screens/login_screen.dart';
 import 'package:job_app/screens/main_screen.dart';
 import 'package:job_app/screens/providers/app_auth_provider.dart';
+import 'package:job_app/screens/auth/signup_screen.dart';
 import 'package:job_app/widgets/app_button.dart';
 import 'package:job_app/widgets/app_text_field.dart';
 import 'package:provider/provider.dart';
 
-class SignUpScreen extends StatefulWidget {
+class LoginScreen extends StatefulWidget {
   const new({super.key});
 
   @override
-  State<SignUpScreen> createState() => _SignUpScreenState();
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _SignUpScreenState extends State<SignUpScreen> {
+class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController =
-      TextEditingController();
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _phoneController = TextEditingController();
   bool _isPasswordVisible = false;
-  bool _isConfirmPasswordVisible = false;
 
   @override
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
-    _confirmPasswordController.dispose();
     super.dispose();
   }
 
@@ -38,15 +32,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
     final theme = Theme.of(context);
 
     return Scaffold(
-      appBar: AppBar(),
       body: ListView(
         children: [
           SizedBox(
             height: 200,
-            child: Image.asset(
-              'assets/images/sign_up_banner.jpeg',
-              fit: .cover,
-            ),
+            child: Image.asset('assets/images/login_banner.jpeg', fit: .cover),
           ),
           Form(
             key: _formKey,
@@ -68,25 +58,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 crossAxisAlignment: .stretch,
 
                 children: [
-                  // Name
-                  AppTextField(
-                    controller: _nameController,
-                    labelText: "Full Name",
-                    hintText: "Enter your full name",
-                    isPassword: false,
-                    prefixIcon: Icons.person_outline_rounded,
-                    keyboardType: .name,
-                    textInputAction: .next,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter your full name';
-                      }
-                      return null;
-                    },
-                  ),
-
-                  const SizedBox(height: 20),
-
                   // Email Address
                   AppTextField(
                     controller: _emailController,
@@ -104,34 +75,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     },
                   ),
                   const SizedBox(height: 20),
-
-                  // Phone Number
-                  AppTextField(
-                    controller: _phoneController,
-                    labelText: 'Phone Number',
-                    extraLabelText: '(Optional)',
-                    hintText: '+959123456789',
-                    isPassword: false,
-                    keyboardType: .phone,
-                    textInputAction: .next,
-                    prefixIcon: Icons.phone_outlined,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter your phone number';
-                      }
-                      return null;
-                    },
-                  ),
-
-                  const SizedBox(height: 20),
-
                   // Password
                   AppTextField(
                     controller: _passwordController,
                     labelText: 'Password',
-                    hintText: 'Create a password',
+                    hintText: 'Enter your password',
                     keyboardType: .visiblePassword,
-                    textInputAction: .next,
+                    textInputAction: .done,
                     isPassword: !_isPasswordVisible,
                     prefixIcon: Icons.lock_outline_rounded,
                     suffixIcon: IconButton(
@@ -152,67 +102,55 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       if (value == null || value.isEmpty) {
                         return 'Please enter a password';
                       }
-                      if (value.length < 6) {
-                        return 'Password must be at least 6 characters';
-                      }
                       return null;
                     },
                   ),
-
-                  const SizedBox(height: 20),
-
-                  // Confirm Password
-                  AppTextField(
-                    controller: _confirmPasswordController,
-                    labelText: 'Confirm Password',
-                    hintText: 'Re-enter your password',
-                    keyboardType: .visiblePassword,
-                    textInputAction: .done,
-                    isPassword: !_isConfirmPasswordVisible,
-                    prefixIcon: Icons.lock_outline_rounded,
-                    suffixIcon: IconButton(
-                      onPressed: () {
-                        setState(() {
-                          _isConfirmPasswordVisible =
-                              !_isConfirmPasswordVisible;
-                        });
-                      },
-                      icon: Icon(
-                        _isConfirmPasswordVisible
-                            ? Icons.visibility
-                            : Icons.visibility_off,
-                        color: AppColors.textSecondary,
+                  const SizedBox(height: 10),
+                  Row(
+                    children: [
+                      Checkbox(
+                        value: true,
+                        onChanged: (value) {},
+                        activeColor: AppColors.primaryLight,
                       ),
-                    ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter confirm password';
-                      }
-                      if (value != _passwordController.text) {
-                        return 'Passwords do not match';
-                      }
-                      return null;
-                    },
+                      Expanded(
+                        child: Text(
+                          'Rememeber me',
+                          style: theme.textTheme.labelMedium!.copyWith(
+                            fontWeight: .w400,
+                            color: AppColors.textSecondary,
+                          ),
+                        ),
+                      ),
+                      Text(
+                        'Forgot password?',
+                        style: theme.textTheme.labelMedium!.copyWith(
+                          color: AppColors.primary,
+                        ),
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 20),
+
                   Consumer<AppAuthProvider>(
                     builder: (context, provider, child) {
                       return AppButton(
                         title: provider.isLoading
-                            ? 'Creating account...'
-                            : 'Create Account →',
-                        onPressed: provider.isLoading
+                            ? "Logging in..."
+                            : 'Log in →',
+                        onPressed: provider.isLoading == true
                             ? null
                             : () async {
-                                if (!_formKey.currentState!.validate()) return;
-
-                                final error = await provider.signUp(
-                                  _nameController.text.trim(),
+                                if (!_formKey.currentState!.validate()) {
+                                  return;
+                                }
+                                final error = await provider.signIn(
                                   _emailController.text.trim(),
                                   _passwordController.text.trim(),
-                                  _phoneController.text.trim(),
                                 );
+
                                 if (!context.mounted) return;
+
                                 if (error != null) {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
@@ -234,47 +172,80 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     },
                   ),
                   const SizedBox(height: 20),
-                  LabelWithDivider(label: 'Or sign up with'),
+                  LabelWithDivider(label: 'Or continue with'),
                   const SizedBox(height: 10),
 
                   Row(
                     mainAxisAlignment: .spaceBetween,
                     children: [
-                      AppIconButton(
-                        imageIconUrl: 'assets/images/google-logo.jpg',
-                        title: 'Google',
+                      Consumer<AppAuthProvider>(
+                        builder: (context, provider, child) {
+                          return AppIconButton(
+                            onPressed: () async {
+                              await provider.signInWithGoogle();
+                            },
+                            imageIconUrl: 'assets/images/google-logo.jpg',
+                            title: 'Google',
+                          );
+                        },
                       ),
                       const SizedBox(width: 10),
                       AppIconButton(
+                        onPressed: () {},
                         imageIconUrl: 'assets/images/apple-logo.png',
                         title: "Apple",
                       ),
                     ],
                   ),
-                  const SizedBox(height: 10),
-                  Row(
-                    mainAxisAlignment: .center,
-                    children: [
-                      Text('Already have an account?'),
-                      const SizedBox(width: 10),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => LoginScreen(),
+                  const SizedBox(height: 20),
+                  Container(
+                    padding: .all(16),
+                    decoration: BoxDecoration(
+                      borderRadius: .circular(12),
+                      color: Colors.blue.shade100.withValues(alpha: 0.4),
+                    ),
+                    child: Row(
+                      crossAxisAlignment: .start,
+                      children: [
+                        Icon(Icons.school, color: AppColors.primary, size: 35),
+                        const SizedBox(width: 20),
+                        Column(
+                          crossAxisAlignment: .start,
+                          children: [
+                            Text(
+                              'New to InternHub?',
+                              style: theme.textTheme.titleSmall!.copyWith(
+                                fontWeight: .w600,
+                              ),
                             ),
-                          );
-                        },
-                        child: Text(
-                          'Login',
-                          style: theme.textTheme.bodySmall!.copyWith(
-                            color: AppColors.primary,
-                            fontWeight: .w700,
-                          ),
+                            const SizedBox(height: 10),
+
+                            Text(
+                              'Join our community and discover \nexciting internship opportunities.',
+                              style: theme.textTheme.bodySmall!.copyWith(
+                                fontWeight: .w300,
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => SignUpScreen(),
+                                  ),
+                                );
+                              },
+                              child: Text(
+                                'Create an Account →',
+                                style: theme.textTheme.labelMedium!.copyWith(
+                                  color: AppColors.primary,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ],
               ),
@@ -286,17 +257,46 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 }
 
+class LabelWithDivider extends StatelessWidget {
+  const new({super.key, required this.label});
+
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Row(
+      children: [
+        Expanded(child: Divider(height: 1, thickness: 0.8, endIndent: 10)),
+        Text(
+          label,
+          style: theme.textTheme.bodySmall!.copyWith(
+            color: AppColors.textSecondary,
+          ),
+        ),
+        Expanded(child: Divider(height: 1, thickness: 0.8, indent: 10)),
+      ],
+    );
+  }
+}
+
 class AppIconButton extends StatelessWidget {
-  const new({super.key, required this.imageIconUrl, required this.title});
+  const new({
+    super.key,
+    required this.imageIconUrl,
+    required this.title,
+    required this.onPressed,
+  });
 
   final String imageIconUrl;
   final String title;
+  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: ElevatedButton(
-        onPressed: () {},
+        onPressed: onPressed,
         style: ElevatedButton.styleFrom(
           padding: .all(14),
           backgroundColor: AppColors.surface,

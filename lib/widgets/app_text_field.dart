@@ -14,6 +14,7 @@ class AppTextField extends StatelessWidget {
     this.keyboardType = .text,
     this.validator,
     required this.textInputAction,
+    this.isEnabled = true,
   });
 
   final String labelText;
@@ -27,6 +28,7 @@ class AppTextField extends StatelessWidget {
   final TextEditingController _controller;
   final bool isPassword;
   final TextInputAction textInputAction;
+  final bool isEnabled;
 
   @override
   Widget build(BuildContext context) {
@@ -58,6 +60,7 @@ class AppTextField extends StatelessWidget {
           keyboardType: .visiblePassword,
           textInputAction: .next,
           maxLines: 1,
+          enabled: isEnabled,
           decoration: InputDecoration(
             hint: Text(hintText),
             prefixIcon: prefixIcon != null

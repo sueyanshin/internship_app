@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:job_app/data/mock_data.dart';
-import 'package:job_app/models/skill_tag_data.dart';
 import 'package:job_app/screens/job_details_screen.dart';
 import 'package:job_app/screens/my_progress_screen.dart';
-import 'package:job_app/screens/providers/user_provider.dart';
+import 'package:job_app/screens/providers/app_auth_provider.dart';
 import 'package:job_app/widgets/banner_card.dart';
 import 'package:job_app/widgets/header_section.dart';
 import 'package:job_app/widgets/job_card.dart';
@@ -13,7 +12,7 @@ import 'package:job_app/widgets/title_see_all_widget.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
-  new({super.key});
+  const new({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -24,47 +23,9 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<UserProvider>().fetchUserProfile();
+      context.read<AppAuthProvider>().fetchUserProfile();
     });
   }
-
-  final List<SkillTagData> tags = [
-    SkillTagData(
-      label: 'Flutter',
-      textColor: Colors.lightBlue.shade800,
-      backgroundColor: Colors.lightBlue.shade100,
-    ),
-    SkillTagData(
-      label: 'Dart',
-      textColor: Colors.blue.shade800,
-      backgroundColor: Colors.blue.shade100,
-    ),
-    SkillTagData(
-      label: 'UI/UX',
-      textColor: Colors.green.shade800,
-      backgroundColor: Colors.green.shade100,
-    ),
-    SkillTagData(
-      label: 'Git',
-      textColor: Colors.deepOrange.shade800,
-      backgroundColor: Colors.deepOrange.shade100,
-    ),
-    SkillTagData(
-      label: 'Python',
-      textColor: Colors.pink.shade800,
-      backgroundColor: Colors.pink.shade100,
-    ),
-    SkillTagData(
-      label: 'Firebase',
-      textColor: Colors.amber.shade800,
-      backgroundColor: Colors.amber.shade100,
-    ),
-    SkillTagData(
-      label: 'Figma',
-      textColor: Colors.indigo.shade800,
-      backgroundColor: Colors.indigo.shade100,
-    ),
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -78,20 +39,20 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Column(
                   children: [
                     // Header Section
-                    Consumer<UserProvider>(
-                      builder: (context, userProvider, child) {
-                        if (userProvider.isLoading) {
+                    Consumer<AppAuthProvider>(
+                      builder: (context, provider, child) {
+                        if (provider.isLoading) {
                           return const Center(
                             child: CircularProgressIndicator(),
                           );
                         }
-                        final user = userProvider.currentUser;
+                        final user = provider.userProfile;
                         if (user == null) {
                           return Text("Please login to your account");
                         }
                         return HeaderSection(
                           username: user.name,
-                          profileImage: "assets/images/profile-image.jpg",
+                          profileImage: user.profileUrl!,
                         );
                       },
                     ),

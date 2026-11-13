@@ -3,7 +3,7 @@ import 'package:job_app/core/theme/app_colors.dart';
 import 'package:job_app/screens/applications_screen.dart';
 import 'package:job_app/screens/home_screen.dart';
 import 'package:job_app/screens/notifications_screen.dart';
-import 'package:job_app/screens/profile_screen.dart';
+import 'package:job_app/screens/profile/profile_screen.dart';
 import 'package:job_app/screens/providers/bottom_nav_provider.dart';
 import 'package:job_app/screens/search_screen.dart';
 import 'package:provider/provider.dart';

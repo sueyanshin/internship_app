@@ -1,4 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:job_app/models/internship.dart';
+import 'package:job_app/models/skill_tag_data.dart';
 import 'package:job_app/models/timeline_step.dart';
 
 List<Internship> internships = [
@@ -109,5 +111,43 @@ List<TimelineStep> steps = [
     title: 'Get Hired 🎉',
     subtitle: 'Upcoming',
     state: TimelineStepState.upcoming,
+  ),
+];
+
+final List<SkillTagData> tags = [
+  SkillTagData(
+    label: 'Flutter',
+    textColor: Colors.lightBlue.shade800,
+    backgroundColor: Colors.lightBlue.shade100,
+  ),
+  SkillTagData(
+    label: 'Dart',
+    textColor: Colors.blue.shade800,
+    backgroundColor: Colors.blue.shade100,
+  ),
+  SkillTagData(
+    label: 'UI/UX',
+    textColor: Colors.green.shade800,
+    backgroundColor: Colors.green.shade100,
+  ),
+  SkillTagData(
+    label: 'Git',
+    textColor: Colors.deepOrange.shade800,
+    backgroundColor: Colors.deepOrange.shade100,
+  ),
+  SkillTagData(
+    label: 'Python',
+    textColor: Colors.pink.shade800,
+    backgroundColor: Colors.pink.shade100,
+  ),
+  SkillTagData(
+    label: 'Firebase',
+    textColor: Colors.amber.shade800,
+    backgroundColor: Colors.amber.shade100,
+  ),
+  SkillTagData(
+    label: 'Figma',
+    textColor: Colors.indigo.shade800,
+    backgroundColor: Colors.indigo.shade100,
   ),
 ];

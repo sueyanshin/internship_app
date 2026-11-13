@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:job_app/core/theme/app_colors.dart';
 
@@ -27,8 +28,8 @@ class HeaderSection extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(16),
-              child: Image.asset(
-                profileImage,
+              child: CachedNetworkImage(
+                imageUrl: profileImage,
                 width: 50,
                 height: 50,
                 fit: BoxFit.cover,
